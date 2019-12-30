@@ -8,18 +8,19 @@
 #include <utility>
 #include "Command.h"
 
+// TODO: Fill the comment.
+// Connect Control Client Command is used to _____________.
+// This class uses the singleton design pattern and has only one instance.
 class ConnectCommand : public Command {
  public:
-  ConnectCommand(string a, int p): address(move(a)), port(p) {}
-  int Execute() override;
-  static void ConnectClient(ConnectCommand *connect_command);
-  int GetClientSocket();
+  int Execute(vector<string> &tokens, int index) override;
+
+  // Output: The single instance of this class.
+  static ConnectCommand *GetInstance();
 
  private:
-  string address;
-  int port;
-  int client_socket;
-  bool is_connected = false;
+  ConnectCommand() = default;
+  static ConnectCommand *instance;
 };
 
 #endif //EX3__CONNECTCOMMAND_H_

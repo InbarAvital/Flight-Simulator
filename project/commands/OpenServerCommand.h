@@ -7,13 +7,19 @@
 
 #include "Command.h"
 
+// TODO: Fill the comment.
+// Open Data Server Command is used to _____________.
+// This class uses the singleton design pattern and has only one instance.
 class OpenServerCommand : public Command {
  public:
-  explicit OpenServerCommand(int p): port(p) {}
-  int Execute() override;
+  int Execute(vector<string> &tokens, int index) override;
+
+  // Output: The single instance of this class.
+  static OpenServerCommand *GetInstance();
 
  private:
-  int port;
+  OpenServerCommand() = default;
+  static OpenServerCommand *instance;
 };
 
 #endif //EX3__OPENSERVERCOMMAND_H_

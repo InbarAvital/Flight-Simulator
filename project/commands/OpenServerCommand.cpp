@@ -5,7 +5,17 @@
 #include <iostream>
 #include "OpenServerCommand.h"
 
-int OpenServerCommand::Execute() {
-  cerr << "OpenServerCommand::Execute() was not implemented" << endl;
+OpenServerCommand *OpenServerCommand::instance = nullptr;
+
+OpenServerCommand *OpenServerCommand::GetInstance() {
+  if (OpenServerCommand::instance == nullptr) {
+    OpenServerCommand::instance = new OpenServerCommand();
+  }
+  return OpenServerCommand::instance;
+}
+
+int OpenServerCommand::Execute(vector<string> &tokens, int index) {
+  // TODO: Implement function.
+  cerr << "OpenServerCommand::Execute(vector<string> &tokens, int index) has no implementation" << endl;
   exit(1);
 }

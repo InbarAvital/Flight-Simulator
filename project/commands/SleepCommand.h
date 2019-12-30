@@ -7,13 +7,18 @@
 
 #include "Command.h"
 
+// Sleep Command is used to pause the program for a couple of milliseconds.
+// This class uses the singleton design pattern and has only one instance.
 class SleepCommand : public Command {
  public:
-  explicit SleepCommand(int m): milliseconds(m) {}
-  int Execute() override;
+  int Execute(vector<string> &tokens, int index) override;
+
+  // Output: The single instance of this class.
+  static SleepCommand *GetInstance();
 
  private:
-  int milliseconds;
+  SleepCommand() = default;
+  static SleepCommand *instance;
 };
 
 #endif //EX3__SLEEPCOMMAND_H_

@@ -5,7 +5,19 @@
 #include <iostream>
 #include "PrintCommand.h"
 
-int PrintCommand::Execute() {
-  cout << this->message << endl;
+PrintCommand *PrintCommand::instance = nullptr;
+
+PrintCommand *PrintCommand::GetInstance() {
+  if (PrintCommand::instance == nullptr) {
+    PrintCommand::instance = new PrintCommand();
+  }
+  return PrintCommand::instance;
+}
+
+int PrintCommand::Execute(vector<string> &tokens, int index) {
+  // TODO: Support expressions.
+  // TODO: Support variables.
+  string message = tokens[index + 1];
+  cout << message << endl;
   return 2;
 }

@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include "PrintCommand.h"
+#include "../expressions/Interpreter.h"
 
 PrintCommand *PrintCommand::instance = nullptr;
 
@@ -15,9 +16,17 @@ PrintCommand *PrintCommand::GetInstance() {
 }
 
 int PrintCommand::Execute(vector<string> &tokens, int index) {
-  // TODO: Support expressions.
   // TODO: Support variables.
   string message = tokens[index + 1];
-  cout << message << endl;
+  if (message[0] == '\"' && message[message.size() - 1] == '\"') {
+    cout << message.substr(1, message.size() - 2) << endl;
+  } else {
+    Interpreter *interpreter = new Interpreter();
+    try {
+      cout << interpreter->interpret(message)->calculate() << endl;
+    } catch (const char* e) {
+      cout << e << endl;
+    }
+  }
   return 2;
 }

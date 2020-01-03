@@ -3,7 +3,9 @@
 //
 
 #include <thread>
+#include <iostream>
 #include "SleepCommand.h"
+#include "../expressions/Interpreter.h"
 
 SleepCommand *SleepCommand::instance = nullptr;
 
@@ -15,9 +17,15 @@ SleepCommand *SleepCommand::GetInstance() {
 }
 
 int SleepCommand::Execute(vector<string> &tokens, int index) {
-  // TODO: Support expressions.
   // TODO: Support variables.
-  int milliseconds = stoi(tokens[index + 1]);
-  this_thread::sleep_for(chrono::milliseconds(milliseconds));
+  string parameter = tokens[index + 1];
+  int milliseconds;
+  Interpreter *interpreter = new Interpreter();
+  try {
+    milliseconds = (int) interpreter->interpret(parameter)->calculate();
+    this_thread::sleep_for(chrono::milliseconds(milliseconds));
+  } catch (const char* e) {
+    cout << e << endl;
+  }
   return 2;
 }

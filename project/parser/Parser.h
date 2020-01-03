@@ -28,6 +28,10 @@ class Parser {
   // Analyzes the lexical tokens of this Parser and executes the commands.
   void Parse();
 
+  map<string, Command *> &GetCommands() {
+    return this->commands;
+  }
+
  private:
   vector<string> tokens;
   map<string, Command *> commands;

@@ -3,7 +3,7 @@
 //
 using namespace std;
 #include <iostream>
-#include "lexer.h"
+#include "Lexer.h"
 
 
 /**

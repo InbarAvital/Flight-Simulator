@@ -11,6 +11,7 @@ using namespace std;
 // This class uses the singleton design pattern and has only one instance.
 class Lexer {
  public:
+  virtual ~Lexer();
   vector<string> Tokenize(string file_name);
 
   // Output: The single instance of this class.

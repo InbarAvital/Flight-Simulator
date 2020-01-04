@@ -278,3 +278,7 @@ string Lexer::DeleteStr(string str, string del) {
     after_del += Sub(str, str.length() - del.length() + 1, str.length());
     return after_del;
 }
+
+Lexer::~Lexer() {
+  Lexer::instance = nullptr;
+}

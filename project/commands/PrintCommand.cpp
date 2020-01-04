@@ -30,3 +30,7 @@ int PrintCommand::Execute(vector<string> &tokens, int index) {
   }
   return 2;
 }
+
+PrintCommand::~PrintCommand() {
+  PrintCommand::instance = nullptr;
+}

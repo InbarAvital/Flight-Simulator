@@ -12,6 +12,9 @@
 // This class uses the singleton design pattern and has only one instance.
 class OpenServerCommand : public Command {
  public:
+  // Deletes the single instance of this class.
+  virtual ~OpenServerCommand();
+
   int Execute(vector<string> &tokens, int index) override;
 
   // Output: The single instance of this class.

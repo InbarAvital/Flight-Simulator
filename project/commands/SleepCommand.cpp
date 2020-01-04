@@ -29,3 +29,7 @@ int SleepCommand::Execute(vector<string> &tokens, int index) {
   }
   return 2;
 }
+
+SleepCommand::~SleepCommand() {
+  SleepCommand::instance = nullptr;
+}

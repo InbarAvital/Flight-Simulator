@@ -19,3 +19,7 @@ int OpenServerCommand::Execute(vector<string> &tokens, int index) {
   cerr << "OpenServerCommand::Execute(vector<string> &tokens, int index) has no implementation" << endl;
   exit(1);
 }
+
+OpenServerCommand::~OpenServerCommand() {
+  OpenServerCommand::instance = nullptr;
+}

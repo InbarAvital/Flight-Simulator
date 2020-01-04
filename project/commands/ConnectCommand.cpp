@@ -23,3 +23,7 @@ int ConnectCommand::Execute(vector<string> &tokens, int index) {
   cerr << "ConnectCommand::Execute(vector<string> &tokens, int index) has no implementation" << endl;
   exit(1);
 }
+
+ConnectCommand::~ConnectCommand() {
+  ConnectCommand::instance = nullptr;
+}

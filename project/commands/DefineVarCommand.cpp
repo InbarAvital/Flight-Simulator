@@ -19,3 +19,7 @@ int DefineVarCommand::Execute(vector<string> &tokens, int index) {
   cerr << "DefineVarCommand::Execute(vector<string> &tokens, int index) has no implementation" << endl;
   exit(1);
 }
+
+DefineVarCommand::~DefineVarCommand() {
+  DefineVarCommand::instance = nullptr;
+}

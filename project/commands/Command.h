@@ -1,29 +1,25 @@
 //
-// Created by noam on 27/12/2019.
+// Created by inbar on 12/26/2019.
 //
 
-#ifndef EX3_COMMAND_H
-#define EX3_COMMAND_H
-
-#include <string>
+#ifndef PROJECT1_EXTRAFUNCTIONS_H
+#define PROJECT1_EXTRAFUNCTIONS_H
 #include <vector>
-
+#include <string>
+#include <fstream>
 using namespace std;
-
-// Command is a lexical token which can be executed and cause the program to
-// preform an action.
-// This is an abstract class, and each type of command has its own class which
-// derives from this abstract class.
-// Every derived class should use the singleton design pattern.
-class Command {
- public:
-  // Input: data - The lexical tokens.
-  //        index - The index of the executing command from the lexical tokens.
-  // Output: The number of lexical tokens until the next command.
-  // Executes a command from the lexical tokens.
-  virtual int Execute(vector<string> &tokens, int index) = 0;
-
-  virtual ~Command() = default;
+class Lexer {
+public:
+    Lexer()= default;
+    virtual ~Lexer()= default;
+    vector<string> Tokenize(string file_name);
+private:
+    vector<string> AddVectors(vector<string> a, vector<string> b);
+    vector<string> Split(string str, string splitBy, bool del);
+    vector<string> SplitAll(string str, vector<pair<string, int>> splitBy);
+    string DeleteStr(string str, string del);
+    string Sub(string str, int start, int finish);
 };
 
-#endif //EX3_COMMAND_H
+
+#endif //PROJECT1_EXTRAFUNCTIONS_H

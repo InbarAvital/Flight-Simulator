@@ -143,6 +143,7 @@ vector<string> splitAll(string str, vector<pair<string, int>> split_by) {
     bool have_while = false;
     bool have_if = false;
     bool is_print = false;
+    int begin_if_while = 0;
     for (int i = 0; i < str.length() - 1; i++) {
         // the support for '//'
         if (str[i] == '/' && str[i + 1] == '/') {
@@ -155,18 +156,25 @@ vector<string> splitAll(string str, vector<pair<string, int>> split_by) {
             have_equal = true;
         }
     }
+    int beginning_of_line = 0;
+    while(str[beginning_of_line] == ' ') {
+        beginning_of_line++;
+    }
     // checks if there is a while loop
-    if (str.length() > 5 && sub(str, 0, 5) == "while") {
+    if (str.length() > 5 && sub(str, beginning_of_line, beginning_of_line + 5) == "while") {
         have_while = true;
+        begin_if_while = 6;
     }
     // checks if there is an if
-    if (str.length() > 2 && sub(str, 0, 2) == "if") {
+    if (str.length() > 2 && sub(str, beginning_of_line, beginning_of_line + 2) == "if") {
         have_if = true;
+        begin_if_while = 3;
     }
     // checks if there is a print
-    if (str.length() > 5 && sub(str, 0, 5) == "Print") {
+    if (str.length() > 5 && sub(str, beginning_of_line, beginning_of_line + 5) == "Print") {
         is_print = true;
     }
+    str = sub(str, beginning_of_line, str.length());
     // the list we will eventually return
     vector<string> after_split;
     // if this is a line with "=" sign
@@ -192,26 +200,36 @@ vector<string> splitAll(string str, vector<pair<string, int>> split_by) {
             after_split = addVectors(after_split, split(a, "\t", 1));
         }
         // deletes spaces from after the equal
-        string without_spaces = "";
-        for (int i = 0; i < after_equal.length(); i++) {
-            if (after_equal[i] != ' ') {
-                without_spaces += after_equal[i];
+        after_split.push_back(deleteStr(after_equal, " "));
+    } else if (have_if || have_while) { // if it is a if or a while loop
+        string to_add = "";
+        after_split.push_back(sub(str, 0, begin_if_while - 1));
+        for(int i = begin_if_while; i < str.length() - 1; i++) {
+            if (sub(str, i, i + 2)  == ">=" || sub(str, i, i + 2) == "<="
+                || sub(str, i, i + 2) == "==" || sub(str, i, i + 2) == "!=") {
+                after_split.push_back(deleteStr(to_add, " "));
+                after_split.push_back(sub(str, i, i + 2));
+                to_add = "";
+                i += 2;
+            } else if (str[i]  == '>' || str[i] == '<') {
+                after_split.push_back(deleteStr(to_add, " "));
+                after_split.push_back(sub(str, i, i+1));
+                to_add = "";
+                i += 1;
+            }
+            if(i < str.length() - 1) {
+                to_add+=str[i];
             }
         }
-        after_split.push_back(without_spaces);
+        after_split.push_back(deleteStr(to_add, " "));
+        after_split.push_back("{");
     } else if (is_print) { // if it is a print function
         after_split.push_back("Print");
         string second = sub(str, 6, str.length() - 1);
         if(second[0] == '"') // if it is a normal print
             after_split.push_back(second);
         else { // if this is a print of an expression
-            string without_spaces = "";
-            for (int i = 0; i < second.length(); i++) {
-                if (second[i] != ' ') {
-                    without_spaces += second[i];
-                }
-            }
-            after_split.push_back(without_spaces);
+            after_split.push_back(deleteStr(second, " "));
         }
     } else { // if it is not a print and not equal sign
         after_split.push_back(str);
@@ -233,4 +251,22 @@ vector<string> splitAll(string str, vector<pair<string, int>> split_by) {
         }
     }
     return after_split;
+}
+
+
+/**
+ * Deletes every del appearance in str.
+ */
+string deleteStr(string str, string del) {
+    string after_del = "";
+    for (int i = 0; i < str.length() - del.length() + 1; i++) {
+        if (sub(str, i, i + del.length()) != del) {
+            after_del += str[i];
+        }
+        else {
+            i += del.length() - 1;
+        }
+    }
+    after_del += sub(str, str.length() - del.length() + 1, str.length());
+    return after_del;
 }

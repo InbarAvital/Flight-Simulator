@@ -15,7 +15,9 @@ class ConditionParser : public Command {
  public:
   // Input: p - The original parser.
   // Constructs a ConditionParser with the commands map from the original Parser.
-  explicit ConditionParser(Parser &p): commands(p.GetCommands()) {}
+  explicit ConditionParser(Parser *p): commands(p->GetCommands()) {}
+
+  virtual ~ConditionParser() = default;
 
  protected:
   // Output: whether the condition is satisfied or not.

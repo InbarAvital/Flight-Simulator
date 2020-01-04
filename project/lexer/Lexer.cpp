@@ -5,6 +5,14 @@ using namespace std;
 #include <iostream>
 #include "Lexer.h"
 
+Lexer *Lexer::instance = nullptr;
+
+Lexer *Lexer::GetInstance() {
+  if (Lexer::instance == nullptr) {
+    Lexer::instance = new Lexer();
+  }
+  return Lexer::instance;
+}
 
 /**
  * This function receives a name of a file and uses the

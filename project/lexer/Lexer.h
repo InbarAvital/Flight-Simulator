@@ -8,17 +8,22 @@
 #include <string>
 #include <fstream>
 using namespace std;
+// This class uses the singleton design pattern and has only one instance.
 class Lexer {
-public:
-    Lexer()= default;
-    virtual ~Lexer()= default;
-    vector<string> Tokenize(string file_name);
-private:
-    vector<string> AddVectors(vector<string> a, vector<string> b);
-    vector<string> Split(string str, string splitBy, bool del);
-    vector<string> SplitAll(string str, vector<pair<string, int>> splitBy);
-    string DeleteStr(string str, string del);
-    string Sub(string str, int start, int finish);
+ public:
+  vector<string> Tokenize(string file_name);
+
+  // Output: The single instance of this class.
+  static Lexer *GetInstance();
+
+ private:
+  Lexer() = default;
+  static Lexer *instance;
+  vector<string> AddVectors(vector<string> a, vector<string> b);
+  vector<string> Split(string str, string splitBy, bool del);
+  vector<string> SplitAll(string str, vector<pair<string, int>> splitBy);
+  string DeleteStr(string str, string del);
+  string Sub(string str, int start, int finish);
 };
 
 

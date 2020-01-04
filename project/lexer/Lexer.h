@@ -11,7 +11,11 @@ using namespace std;
 // This class uses the singleton design pattern and has only one instance.
 class Lexer {
  public:
+  // Deletes the single instance of this class.
   virtual ~Lexer();
+
+  // Input: file_name - The name of the file.
+  // Output: The tokens in this file (commands and parameters).
   vector<string> Tokenize(string file_name);
 
   // Output: The single instance of this class.

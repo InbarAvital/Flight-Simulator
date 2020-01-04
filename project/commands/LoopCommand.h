@@ -12,7 +12,7 @@ class LoopCommand : public ConditionParser {
  public:
   // Input: p - The original parser.
   // Constructs a Loop Command with the commands map from the original Parser.
-  explicit LoopCommand(Parser &p): ConditionParser(p) {}
+  explicit LoopCommand(Parser *p): ConditionParser(p) {}
 
   int Execute(vector<string> &tokens, int index) override;
 };

@@ -12,7 +12,7 @@ using namespace std;
  *
  * Returns a vector of the splitted text
  */
-vector<string> lexer(string file_name) {
+vector<string> Lexer::Tokenize(string file_name) {
     ifstream file;
     string data;
     vector<pair<string, int>> split_by;
@@ -34,7 +34,7 @@ vector<string> lexer(string file_name) {
     }
     // goes to each line and splits it.
     while (getline (file, data)) {
-        commands = addVectors(commands, splitAll(data, split_by));
+        commands = AddVectors(commands, SplitAll(data, split_by));
     }
     file.close();
     return commands;
@@ -52,7 +52,7 @@ vector<string> lexer(string file_name) {
  *
  * Returns a vector of the splitted parts of the string.
  */
-vector<string> split(string str, string split_by, bool del) {
+vector<string> Lexer::Split(string str, string split_by, bool del) {
     // true every time we find a split_by string
     bool found;
     // a string to add until we find a split_by string
@@ -97,7 +97,7 @@ vector<string> split(string str, string split_by, bool del) {
  * Adds the vectors and sends the updated vector
  *
  */
-vector<string> addVectors(vector<string> a, vector<string> b) {
+vector<string> Lexer::AddVectors(vector<string> a, vector<string> b) {
     vector<string> added;
     // adds the a members
     for(string st : a){
@@ -116,7 +116,7 @@ vector<string> addVectors(vector<string> a, vector<string> b) {
  * gets a string and two ints, and returns the string between these
  * two ints(from first to second not icluding the second).
  */
-string sub(string str, int start, int finish) {
+string Lexer::Sub(string str, int start, int finish) {
     string to_send = "";
     for(int i = start; i < finish; i++) {
         to_send += str[i];
@@ -137,7 +137,7 @@ string sub(string str, int start, int finish) {
  * It also supports "while" and "if", functions, and prints.
  *
  */
-vector<string> splitAll(string str, vector<pair<string, int>> split_by) {
+vector<string> Lexer::SplitAll(string str, vector<pair<string, int>> split_by) {
     string final = "";
     bool have_equal = false;
     bool have_while = false;
@@ -161,20 +161,20 @@ vector<string> splitAll(string str, vector<pair<string, int>> split_by) {
         beginning_of_line++;
     }
     // checks if there is a while loop
-    if (str.length() > 5 && sub(str, beginning_of_line, beginning_of_line + 5) == "while") {
+    if (str.length() > 5 && Sub(str, beginning_of_line, beginning_of_line + 5) == "while") {
         have_while = true;
         begin_if_while = 6;
     }
     // checks if there is an if
-    if (str.length() > 2 && sub(str, beginning_of_line, beginning_of_line + 2) == "if") {
+    if (str.length() > 2 && Sub(str, beginning_of_line, beginning_of_line + 2) == "if") {
         have_if = true;
         begin_if_while = 3;
     }
     // checks if there is a print
-    if (str.length() > 5 && sub(str, beginning_of_line, beginning_of_line + 5) == "Print") {
+    if (str.length() > 5 && Sub(str, beginning_of_line, beginning_of_line + 5) == "Print") {
         is_print = true;
     }
-    str = sub(str, beginning_of_line, str.length());
+    str = Sub(str, beginning_of_line, str.length());
     // the list we will eventually return
     vector<string> after_split;
     // if this is a line with "=" sign
@@ -195,25 +195,25 @@ vector<string> splitAll(string str, vector<pair<string, int>> split_by) {
             }
         }
         // splits the part before the equal part normally
-        vector<string> second = split(before_equal, " ", 1);
+        vector<string> second = Split(before_equal, " ", 1);
         for (string a : second) {
-            after_split = addVectors(after_split, split(a, "\t", 1));
+            after_split = AddVectors(after_split, Split(a, "\t", 1));
         }
         // deletes spaces from after the equal
-        after_split.push_back(deleteStr(after_equal, " "));
+        after_split.push_back(DeleteStr(after_equal, " "));
     } else if (have_if || have_while) { // if it is a if or a while loop
         string to_add = "";
-        after_split.push_back(sub(str, 0, begin_if_while - 1));
+        after_split.push_back(Sub(str, 0, begin_if_while - 1));
         for(int i = begin_if_while; i < str.length() - 1; i++) {
-            if (sub(str, i, i + 2)  == ">=" || sub(str, i, i + 2) == "<="
-                || sub(str, i, i + 2) == "==" || sub(str, i, i + 2) == "!=") {
-                after_split.push_back(deleteStr(to_add, " "));
-                after_split.push_back(sub(str, i, i + 2));
+            if (Sub(str, i, i + 2)  == ">=" || Sub(str, i, i + 2) == "<="
+                || Sub(str, i, i + 2) == "==" || Sub(str, i, i + 2) == "!=") {
+                after_split.push_back(DeleteStr(to_add, " "));
+                after_split.push_back(Sub(str, i, i + 2));
                 to_add = "";
                 i += 2;
             } else if (str[i]  == '>' || str[i] == '<') {
-                after_split.push_back(deleteStr(to_add, " "));
-                after_split.push_back(sub(str, i, i+1));
+                after_split.push_back(DeleteStr(to_add, " "));
+                after_split.push_back(Sub(str, i, i+1));
                 to_add = "";
                 i += 1;
             }
@@ -221,15 +221,15 @@ vector<string> splitAll(string str, vector<pair<string, int>> split_by) {
                 to_add+=str[i];
             }
         }
-        after_split.push_back(deleteStr(to_add, " "));
+        after_split.push_back(DeleteStr(to_add, " "));
         after_split.push_back("{");
     } else if (is_print) { // if it is a print function
         after_split.push_back("Print");
-        string second = sub(str, 6, str.length() - 1);
+        string second = Sub(str, 6, str.length() - 1);
         if(second[0] == '"') // if it is a normal print
             after_split.push_back(second);
         else { // if this is a print of an expression
-            after_split.push_back(deleteStr(second, " "));
+            after_split.push_back(DeleteStr(second, " "));
         }
     } else { // if it is not a print and not equal sign
         after_split.push_back(str);
@@ -243,9 +243,9 @@ vector<string> splitAll(string str, vector<pair<string, int>> split_by) {
             for (string prt : after_split) {
                 vector<string> during_split;
                 // spliting
-                during_split = split(prt, spt.first, spt.second);
+                during_split = Split(prt, spt.first, spt.second);
                 // adding this part's split to the final split
-                after_split2 = addVectors(after_split2, during_split);
+                after_split2 = AddVectors(after_split2, during_split);
             }
             after_split = after_split2;
         }
@@ -257,16 +257,16 @@ vector<string> splitAll(string str, vector<pair<string, int>> split_by) {
 /**
  * Deletes every del appearance in str.
  */
-string deleteStr(string str, string del) {
+string Lexer::DeleteStr(string str, string del) {
     string after_del = "";
     for (int i = 0; i < str.length() - del.length() + 1; i++) {
-        if (sub(str, i, i + del.length()) != del) {
+        if (Sub(str, i, i + del.length()) != del) {
             after_del += str[i];
         }
         else {
             i += del.length() - 1;
         }
     }
-    after_del += sub(str, str.length() - del.length() + 1, str.length());
+    after_del += Sub(str, str.length() - del.length() + 1, str.length());
     return after_del;
 }

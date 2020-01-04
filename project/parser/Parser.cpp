@@ -19,3 +19,9 @@ void Parser::Parse() {
     index += command->Execute(this->tokens, index);
   }
 }
+
+Parser::~Parser() {
+  for (const auto& command : this->commands) {
+    delete command.second;
+  }
+}

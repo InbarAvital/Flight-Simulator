@@ -20,6 +20,9 @@ class Parser {
   // Constructs a Parser with the given lexical tokens.
   explicit Parser(vector<string> &t): tokens(t) {}
 
+  // Deletes the commands in the commands map.
+  virtual ~Parser();
+
   // Input: name - The lexeme activates a specific command.
   //        command - The corresponding command.
   // Adds a command to this Parser that matches the provided lexeme.
@@ -28,6 +31,7 @@ class Parser {
   // Analyzes the lexical tokens of this Parser and executes the commands.
   void Parse();
 
+  // Output: The commands map of this parser.
   map<string, Command *> &GetCommands() {
     return this->commands;
   }

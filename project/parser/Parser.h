@@ -18,7 +18,7 @@ class Parser {
  public:
   // Input: t - The lexical tokens.
   // Constructs a Parser with the given lexical tokens.
-  explicit Parser(vector<string> &t): tokens(t) {}
+  explicit Parser(vector<string> &t): tokens(t), commands(new map<string, Command *>()) {}
 
   // Deletes the commands in the commands map.
   virtual ~Parser();
@@ -32,13 +32,13 @@ class Parser {
   void Parse();
 
   // Output: The commands map of this parser.
-  map<string, Command *> &GetCommands() {
+  map<string, Command *> *GetCommands() {
     return this->commands;
   }
 
  private:
   vector<string> tokens;
-  map<string, Command *> commands;
+  map<string, Command *> *commands;
 };
 
 #endif //EX3_PARSER_PARSER_H_

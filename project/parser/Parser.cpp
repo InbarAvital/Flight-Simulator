@@ -5,7 +5,7 @@
 #include "Parser.h"
 
 void Parser::AddCommand(const string &name, Command *command) {
-  this->commands[name] = command;
+  this->commands->insert({name, command});
 }
 
 void Parser::Parse() {
@@ -13,7 +13,7 @@ void Parser::Parse() {
 
   while (index < this->tokens.size()) {
     // Analyzes the current command.
-    Command *command = this->commands[this->tokens[index]];
+    Command *command = this->commands->at(this->tokens[index]);
 
     // Executes the command and move to the next one.
     index += command->Execute(this->tokens, index);
@@ -21,7 +21,5 @@ void Parser::Parse() {
 }
 
 Parser::~Parser() {
-  for (const auto& command : this->commands) {
-    delete command.second;
-  }
+  delete this->commands;
 }

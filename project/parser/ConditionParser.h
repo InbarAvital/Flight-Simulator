@@ -31,7 +31,7 @@ class ConditionParser : public Command {
   Command *GetCommand(string name);
 
  private:
-  map<string, Command *> commands;
+  map<string, Command *> *commands;
   string left_argument;
   string right_argument;
   string condition_operator;

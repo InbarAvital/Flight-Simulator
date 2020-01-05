@@ -45,5 +45,5 @@ void ConditionParser::InitCondition(vector<string> tokens, int index) {
 }
 
 Command *ConditionParser::GetCommand(string name) {
-  return this->commands[name];
+  return this->commands->at(name);
 }

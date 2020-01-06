@@ -3,6 +3,7 @@
 //
 
 #include "Parser.h"
+#include "../commands/FuncCommand.h"
 
 void Parser::AddCommand(const string &name, Command *command) {
   this->commands->insert({name, command});
@@ -13,10 +14,21 @@ void Parser::Parse() {
 
   while (index < this->tokens.size()) {
     // Analyzes the current command.
-    Command *command = this->commands->at(this->tokens[index]);
+    if (this->commands->count(this->tokens[index]) != 0) {
+      Command *command = this->commands->at(this->tokens[index]);
 
-    // Executes the command and move to the next one.
-    index += command->Execute(this->tokens, index);
+      // Executes the command and move to the next one.
+      index += command->Execute(this->tokens, index);
+    } else {
+      // Defines new function.
+      this->AddCommand(this->tokens[index], new FuncCommand(this, index));
+
+      // Continues to the next command.
+      while (tokens[index] != "}") {
+        index++;
+      }
+      index++;
+    }
   }
 }
 

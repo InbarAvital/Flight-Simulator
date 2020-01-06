@@ -9,7 +9,7 @@
 #include "../parser/Parser.h"
 
 // A Function is a set of commands defined by the user (code).
-class FuncCommand : Command {
+class FuncCommand : public Command {
  public:
   // Input: p - The original parser.
   //        start - The index of the first token belongs to the function declaration.

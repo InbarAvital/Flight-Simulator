@@ -7,7 +7,7 @@
 int FuncCommand::Execute(vector<string> &tokens, int index) {
   // TODO: Accept up to one variable as function parameter.
   // Go to the '{' token, which is the start of this function definition's scope.
-  int i = index;
+  int i = this->start_index;
   while (tokens[i] != "{") {
     i++;
   }
@@ -19,5 +19,5 @@ int FuncCommand::Execute(vector<string> &tokens, int index) {
     i += this->commands->at(tokens[i])->Execute(tokens, i);
   }
 
-  return i - index + 1;
+  return 1;
 }

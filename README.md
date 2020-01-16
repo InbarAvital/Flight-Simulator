@@ -20,3 +20,6 @@ Install the files clicking the green "***clone or download***" button, and choos
 #### and then run it with:
 > ./a.out fly.txt
 ```(change the fly.txt file to match your file name)```
+
+
+Link to github: https://github.com/InbarAvital/Flight_Simulator

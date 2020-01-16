@@ -11,6 +11,9 @@
 // Open Data Server Command is used to _____________.
 // This class uses the singleton design pattern and has only one instance.
 class OpenServerCommand : public Command {
+private:
+	map<string, float> value;
+	map<float, string> index;
  public:
   // Deletes the single instance of this class.
   virtual ~OpenServerCommand();

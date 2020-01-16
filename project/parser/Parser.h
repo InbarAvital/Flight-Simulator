@@ -17,8 +17,9 @@ using namespace std;
 class Parser {
  public:
   // Input: t - The lexical tokens.
+  //        data - A Shared Data object (contains symbol table).
   // Constructs a Parser with the given lexical tokens.
-  explicit Parser(vector<string> &t): tokens(t), commands(new map<string, Command *>()) {}
+  explicit Parser(vector<string> &t, SharedData *data): tokens(t), shared_data(data), commands(new map<string, Command *>()) {}
 
   // Deletes the commands in the commands map.
   virtual ~Parser();
@@ -36,9 +37,15 @@ class Parser {
     return this->commands;
   }
 
+  // Output: The shared data object of this parser.
+  SharedData *GetSharedData() {
+    return this->shared_data;
+  }
+
  private:
   vector<string> tokens;
   map<string, Command *> *commands;
+  SharedData *shared_data;
 };
 
 #endif //EX3_PARSER_PARSER_H_

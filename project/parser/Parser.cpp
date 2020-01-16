@@ -4,6 +4,7 @@
 
 #include "Parser.h"
 #include "../commands/FuncCommand.h"
+#include "../commands/AssignToVarCommand.h"
 
 void Parser::AddCommand(const string &name, Command *command) {
   this->commands->insert({name, command});
@@ -19,6 +20,11 @@ void Parser::Parse() {
 
       // Executes the command and move to the next one.
       index += command->Execute(this->tokens, index);
+    } else if (this->shared_data->VariableExists(tokens[index])) {
+      // Assign value to existing variable.
+      Command *command = new AssignToVarCommand(this->shared_data);
+      index += command->Execute(this->tokens, index);
+      delete command;
     } else {
       // Defines new function.
       this->AddCommand(this->tokens[index], new FuncCommand(this, index));
@@ -34,4 +40,5 @@ void Parser::Parse() {
 
 Parser::~Parser() {
   delete this->commands;
+  delete shared_data;
 }

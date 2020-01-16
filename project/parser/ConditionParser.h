@@ -15,9 +15,9 @@ class ConditionParser : public Command {
  public:
   // Input: p - The original parser.
   // Constructs a ConditionParser with the commands map from the original Parser.
-  explicit ConditionParser(Parser *p): commands(p->GetCommands()) {}
+  explicit ConditionParser(Parser *p): commands(p->GetCommands()), shared_data(p->GetSharedData()) {}
 
-  virtual ~ConditionParser() = default;
+  virtual ~ConditionParser();
 
  protected:
   // Output: whether the condition is satisfied or not.
@@ -28,13 +28,15 @@ class ConditionParser : public Command {
 
   // Input: name - the key of some command from the commands map.
   // Output: The matching command from the map.
-  Command *GetCommand(string name);
+  Command *GetCommand(const string& name);
 
  private:
+  SharedData *shared_data;
   map<string, Command *> *commands;
   string left_argument;
   string right_argument;
   string condition_operator;
+  vector<Command *> to_delete;
 };
 
 #endif //EX3_PARSER_CONDITIONPARSER_H_

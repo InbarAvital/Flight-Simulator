@@ -9,6 +9,11 @@
 #include <netinet/in.h>
 #include "OpenServerCommand.h"
 
+void Server(vector<string>& tokens, int index);
+
+vector<string> Lexer::Split(string str, string split_by);
+
+
 int OpenServerCommand::Execute(vector<string> &tokens, int index) {
 	// map settings
 	value["/instrumentation/airspeed-indicator/indicated-speed-kt"] = 0;
@@ -139,7 +144,12 @@ void Server(vector<string>& tokens, int index) {
 	vector<string> values = Split(valread, ",");
 	for (i = 0; i < 36; i++) {
 		value[index[i + 1]] = atof(values[i]);
+		VariableInfo* var_info = this->shared_data->simLeftBind(index[i + 1]);
+		if (var_info != nullptr) {
+			var_info->SetValue(values[i]);
+		}
 	}
+	this->shared_data->symbol_table[]
 	close(socketfd); //closing the listening socket
 }
 

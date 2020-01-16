@@ -50,25 +50,34 @@ list<string> Interpreter::ToTokens(string str) {
 
   string read;
   char pre_char = -1;
+  bool flagOp = false;
+  bool flagStart = true;
   while (!str.empty()) {
-    if (StartsWithNumber(str)) {
+    if (StartsWithNumber(str) && (flagOp || flagStart)) {
+      flagOp = false;
       read = ReadNumber(str);
     } else if (StartsWithVariable(str)) {
+      flagOp = false;
       read = ReadVariable(str);
     } else if (StartsWithOperator(str)) {
+      flagOp = true;
       read = ReadOperator(str, pre_char);
       tokens.push_back(read);
       pre_char = str[0];
       str = str.substr(1);
       continue;
     } else if (str[0] == '(') {
+      flagOp = true;
       read = "(";
     } else if (str[0] == ')') {
+      flagOp = true;
       read = ")";
     }
     tokens.push_back(read);
     pre_char = str[read.length() - 1];
     str = str.substr(read.length());
+
+    flagStart = false;
   }
   return tokens;
 }

@@ -1,20 +1,31 @@
 //
-// Created by noam on 03/01/2020.
+// Created by inbar on 27/12/2019.
 //
 
-#ifndef EX3_COMMANDS_LOOPCOMMAND_H_
-#define EX3_COMMANDS_LOOPCOMMAND_H_
+#ifndef EX3__OPENSERVERCOMMAND_H_
+#define EX3__OPENSERVERCOMMAND_H_
 
-#include "../parser/ConditionParser.h"
+#include "Command.h"
 
-// A loop that continues executing as long as its condition is satisfied.
-class LoopCommand : public ConditionParser {
+// TODO: Fill the comment.
+// Open Data Server Command is used to _____________.
+// This class uses the singleton design pattern and has only one instance.
+class OpenServerCommand : public Command {
+private:
+	map<string, float> value;
+	map<float, string> index;
  public:
-  // Input: p - The original parser.
-  // Constructs a Loop Command with the commands map from the original Parser.
-  explicit LoopCommand(Parser *p): ConditionParser(p) {}
+  // Deletes the single instance of this class.
+  virtual ~OpenServerCommand();
 
   int Execute(vector<string> &tokens, int index) override;
+
+  // Output: The single instance of this class.
+  static OpenServerCommand *GetInstance();
+
+ private:
+  OpenServerCommand() = default;
+  static OpenServerCommand *instance;
 };
 
-#endif //EX3_COMMANDS_LOOPCOMMAND_H_
+#endif //EX3__OPENSERVERCOMMAND_H_

@@ -5,21 +5,20 @@
 #include <iostream>
 #include "DefineVarCommand.h"
 
-DefineVarCommand *DefineVarCommand::instance = nullptr;
-
-DefineVarCommand *DefineVarCommand::GetInstance() {
-  if (DefineVarCommand::instance == nullptr) {
-    DefineVarCommand::instance = new DefineVarCommand();
-  }
-  return DefineVarCommand::instance;
-}
-
 int DefineVarCommand::Execute(vector<string> &tokens, int index) {
-  // TODO: Implement function.
-  cerr << "DefineVarCommand::Execute(vector<string> &tokens, int index) has no implementation" << endl;
-  exit(1);
-}
+  // Gets the arguments.
+  string name = tokens[index + 1];
+  string binding_direction = tokens[index + 2];
 
-DefineVarCommand::~DefineVarCommand() {
-  DefineVarCommand::instance = nullptr;
+  if (binding_direction == "=") {
+    // Defines new normal variable.
+    float value = this->shared_data->GetInterpreter()->interpret(tokens[index + 3])->calculate();
+    this->shared_data->AddVariable(name, value, "", binding_direction);
+  } else {
+    // Defines new variable with binding.
+    string sim = tokens[index + 3];
+    this->shared_data->AddVariable(name, 0, sim, binding_direction);
+  }
+
+  return 4;
 }

@@ -7,22 +7,18 @@
 
 #include <utility>
 #include "Command.h"
+#include "../variables/SharedData.h"
 
 // Print Command is used to print the provided message to the user.
-// This class uses the singleton design pattern and has only one instance.
 class PrintCommand : public Command {
  public:
-  // Deletes the single instance of this class.
-  virtual ~PrintCommand();
-
+  // Input: data - The shared data.
+  // Constructs a Print Command.
+  explicit PrintCommand(SharedData *data): shared_data(data) {}
   int Execute(vector<string> &tokens, int index) override;
 
-  // Output: The single instance of this class.
-  static PrintCommand *GetInstance();
-
  private:
-  PrintCommand() = default;
-  static PrintCommand *instance;
+  SharedData *shared_data;
 };
 
 #endif //EX3__PRINTCOMMAND_H_

@@ -7,6 +7,8 @@
 
 #include <string>
 #include <vector>
+#include "../variables/SymbolTable.h"
+#include "../variables/SharedData.h"
 
 using namespace std;
 
@@ -22,7 +24,6 @@ class Command {
   // Output: The number of lexical tokens until the next command.
   // Executes a command from the lexical tokens.
   virtual int Execute(vector<string> &tokens, int index) = 0;
-
   virtual ~Command() = default;
 };
 

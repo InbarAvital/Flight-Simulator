@@ -6,22 +6,18 @@
 #define EX3__SLEEPCOMMAND_H_
 
 #include "Command.h"
+#include "../variables/SharedData.h"
 
 // Sleep Command is used to pause the program for a couple of milliseconds.
-// This class uses the singleton design pattern and has only one instance.
 class SleepCommand : public Command {
  public:
-  // Deletes the single instance of this class.
-  virtual ~SleepCommand();
-
+  // Input: data - The shared data.
+  // Constructs a Sleep Command.
+  explicit SleepCommand(SharedData *data): shared_data(data) {}
   int Execute(vector<string> &tokens, int index) override;
 
-  // Output: The single instance of this class.
-  static SleepCommand *GetInstance();
-
  private:
-  SleepCommand() = default;
-  static SleepCommand *instance;
+  SharedData *shared_data;
 };
 
 #endif //EX3__SLEEPCOMMAND_H_

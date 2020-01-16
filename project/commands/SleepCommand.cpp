@@ -7,29 +7,12 @@
 #include "SleepCommand.h"
 #include "../expressions/Interpreter.h"
 
-SleepCommand *SleepCommand::instance = nullptr;
-
-SleepCommand *SleepCommand::GetInstance() {
-  if (SleepCommand::instance == nullptr) {
-    SleepCommand::instance = new SleepCommand();
-  }
-  return SleepCommand::instance;
-}
-
 int SleepCommand::Execute(vector<string> &tokens, int index) {
-  // TODO: Support variables.
-  string parameter = tokens[index + 1];
-  int milliseconds;
-  Interpreter *interpreter = new Interpreter();
-  try {
-    milliseconds = (int) interpreter->interpret(parameter)->calculate();
-    this_thread::sleep_for(chrono::milliseconds(milliseconds));
-  } catch (const char* e) {
-    cout << e << endl;
-  }
-  return 2;
-}
+  // Get argument.
+  int milliseconds = (int) this->shared_data->GetInterpreter()->interpret(tokens[index + 1])->calculate();
 
-SleepCommand::~SleepCommand() {
-  SleepCommand::instance = nullptr;
+  // Sleeps for this amount of time.
+  this_thread::sleep_for(chrono::milliseconds(milliseconds));
+
+  return 2;
 }

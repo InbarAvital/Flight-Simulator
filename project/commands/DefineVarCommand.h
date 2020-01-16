@@ -6,23 +6,18 @@
 #define EX3__DEFINEVARCOMMAND_H_
 
 #include "Command.h"
+#include "../variables/SharedData.h"
 
-// TODO: Fill the comment.
-// Var Command is used to define and initialize a new variable inside the program.
-// This class uses the singleton design pattern and has only one instance.
+// Define Var Command is used to define and initialize a new variable inside the program.
 class DefineVarCommand : public Command {
  public:
-  // Deletes the single instance of this class.
-  virtual ~DefineVarCommand();
-
+  // Input: data - The shared data.
+  // Constructs a Define Var Command.
+  explicit DefineVarCommand(SharedData *data): shared_data(data) {}
   int Execute(vector<string> &tokens, int index) override;
 
-  // Output: The single instance of this class.
-  static DefineVarCommand *GetInstance();
-
  private:
-  DefineVarCommand() = default;
-  static DefineVarCommand *instance;
+  SharedData *shared_data;
 };
 
 #endif //EX3__DEFINEVARCOMMAND_H_

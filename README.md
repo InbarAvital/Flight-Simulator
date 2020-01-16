@@ -10,9 +10,7 @@ The compiler we created supports the following commands:
 * Sleep
 * Print
 * Functions
-* Variables
-* Binding
-
+* Variables (Binding the simulator's variables)
 ## Installation and Running
 Install the files clicking the green "***clone or download***" button, and choose the preffered option.
 

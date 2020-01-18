@@ -50,7 +50,10 @@ int OpenServerCommand::Execute(vector<string> &tokens, int token_index) {
 	index[35] = "/controls/switches/master-alt";
 	index[36] = "/engines/engine/rpm";
 
-	//create socket
+    int port = (int) this->shared_data->GetInterpreter()->interpret(tokens[token_index + 1])->calculate();
+
+
+  //create socket
 	int socketfd = socket(AF_INET, SOCK_STREAM, 0);
 	if (socketfd == -1) {
 		//error
@@ -63,7 +66,7 @@ int OpenServerCommand::Execute(vector<string> &tokens, int token_index) {
 	sockaddr_in address; //in means IP4
 	address.sin_family = AF_INET;
 	address.sin_addr.s_addr = INADDR_ANY; //give me any IP allocated for my machine
-	address.sin_port = htons(stoi(tokens[token_index + 1]));
+	address.sin_port = htons(port);
 	//we need to convert our number
 	// to a number that the network understands.
 

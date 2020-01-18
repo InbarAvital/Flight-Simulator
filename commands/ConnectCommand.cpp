@@ -16,7 +16,7 @@ int ConnectCommand::Execute(vector<string> &tokens, int index) {
   string server_address = tokens[index + 1];
   // Removes the " signs.
   server_address = server_address.substr(1, server_address.size() - 2);
-  int port = stoi(tokens[index + 2]);
+  int port = (int) this->shared_data->GetInterpreter()->interpret(tokens[index + 2])->calculate();
 
   //create socket
   int client_socket = socket(AF_INET, SOCK_STREAM, 0);

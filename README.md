@@ -15,7 +15,7 @@ The compiler we created supports the following commands:
 Install the files clicking the green "***clone or download***" button, and choose the preffered option.
 
 #### Compile the program using this command:
-> g++ -std=c++14 */*.cpp *.cpp -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -o a.out -pthread
+> g++ -std=c++14 **/**.cpp *.cpp -Wall -Wextra -Wshadow -Wnon-virtual-dtor -pedantic -o a.out -pthread
 
 #### and then run it with:
 > ./a.out fly.txt
